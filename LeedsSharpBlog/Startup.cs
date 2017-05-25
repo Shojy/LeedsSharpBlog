@@ -1,4 +1,5 @@
-﻿using LeedsSharpBlog.Models;
+﻿using LeedsSharpBlog.Middleware;
+using LeedsSharpBlog.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,10 @@ namespace LeedsSharpBlog
                 app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            // plug in custom middleware
+            app.UseMiddleware<GeneratedByMiddleware>();
+            app.UseMiddleware<ProcessingTimeMiddleware>();
 
             app.UseStaticFiles();
 
