@@ -1,4 +1,6 @@
-﻿@model IEnumerable<BlogSummary>
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<AppSettings> Settings
+@model IEnumerable<BlogSummary>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -7,7 +9,7 @@
 
 @if (Model.Any())
 {
-    <p>Latest posts:</p>
+    <p>Latest @Settings.Value.MaxPostsOnHomepage posts:</p>
     <ol>
         @foreach (var post in Model)
         {
