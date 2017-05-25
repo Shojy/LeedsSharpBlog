@@ -1,0 +1,37 @@
+﻿body {
+
+}
+
+body > header {
+    padding: 10px;
+    background: yellow;
+}
+
+body > header hr {
+    display: none;
+}
+
+body > header > b {
+    color: saddlebrown;
+}
+
+body > header > nav {
+    float: right;
+}
+
+form input, form textarea {
+    box-sizing: border-box;
+    min-width: 400px;
+    max-width: 600px;
+    border: 2px solid gray;
+    padding: 5px;
+}
+
+form label + input,
+form label + textarea {
+    display: block;
+}
+
+.error {
+    color: red;
+}
