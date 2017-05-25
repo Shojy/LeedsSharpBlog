@@ -18,9 +18,20 @@ namespace LeedsSharpBlog.Middleware
             var watch = new Stopwatch();
             watch.Start();
 
-            await _next(context);
+            // Add the header at the last possible moment before all headers are sent to the client.
+            // After this is too late, and response body will start.
+            context.Response.OnStarting(state => {
+                var httpContext = (HttpContext)state;
+                // Stopping the timer is required here to count the elapsed time
+                watch.Stop();
 
-            context.Response.Headers.Add("X-Processing-Time-Milliseconds", new[] { watch.ElapsedMilliseconds.ToString() });
+                // Add the header.
+                httpContext.Response.Headers.Add("X-Processing-Time-Milliseconds", new[] { watch.ElapsedMilliseconds.ToString() });
+                return Task.FromResult(0);
+            }, context);
+
+            //Continue down the pipeline, the handler above will trigger when required.
+            await _next(context);
         }
     }
 }
